@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Runtime.InteropServices;
-
 
 public class Menu : MonoBehaviour
 {
@@ -30,8 +26,6 @@ public class Menu : MonoBehaviour
 
     public void ExitButton()
     {
-
         Application.Quit();
-    
     }
 }

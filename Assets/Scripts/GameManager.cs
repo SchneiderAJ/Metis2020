@@ -29,9 +29,17 @@ public class GameManager : MonoBehaviour
      [DllImport("UnmanagedCode", CallingConvention = CallingConvention.Cdecl)]
      public static extern int GetCount();
 
+     [DllImport("UnmanagedCode", CallingConvention = CallingConvention.Cdecl)]
+     public static extern int Increment(int value);
 
-    // This is here for initial testing purposes until we implement a dynamic question/answer work-flow. 
-    private static List<Question> UnansweredQuestions = new List<Question>
+     [DllImport("UnmanagedCode", CallingConvention = CallingConvention.Cdecl)]
+     public static extern int UpdateScoreInc(int score);
+
+     [DllImport("UnmanagedCode", CallingConvention = CallingConvention.Cdecl)]
+     public static extern int UpdateScoreDec(int score);
+
+     // This is here for initial testing purposes until we implement a dynamic question/answer work-flow. 
+     private static List<Question> UnansweredQuestions = new List<Question>
      {
         new Question
         {
@@ -409,249 +417,6 @@ public class GameManager : MonoBehaviour
         },
         new Question
         {
-            Fact = "In what year was the first Thunder Over Louisville held?",
-             Answers = new List<Answer>
-              {
-                new Answer
-                {
-                    Response = "1987",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "1990",
-                    Result = 1
-                },
-                new Answer
-                {
-                    Response = "1995",
-                    Result = 0
-                }
-            },
-        },
-        new Question
-        {
-            Fact = "Who is the leader of S.H.I.E.L.D.?",
-             Answers = new List<Answer>
-              {
-                new Answer
-                {
-                    Response = "Nick Fury",
-                    Result = 1
-                },
-                new Answer
-                {
-                    Response = "Steve Rogers",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "Bruce Banner",
-                    Result = 0
-                }
-            },
-        },
-        new Question
-        {
-            Fact = "Which is the highest hand in poker?",
-             Answers = new List<Answer>
-              {
-                new Answer
-                {
-                    Response = "Four of a Kind",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "Full House",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "Royal Flush",
-                    Result = 1
-                }
-            },
-        },
-        new Question
-        {
-            Fact = "Which is the longest mountain range?",
-             Answers = new List<Answer>
-              {
-                new Answer
-                {
-                    Response = "Andes",
-                    Result = 1
-                },
-                new Answer
-                {
-                    Response = "Appalachian",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "Himalayas",
-                    Result = 0
-                }
-            },
-        },
-        new Question
-        {
-            Fact = "What is the term for 4 bits?",
-             Answers = new List<Answer>
-              {
-                new Answer
-                {
-                    Response = "Half-byte",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "Nibble",
-                    Result = 1
-                },
-                new Answer
-                {
-                    Response = "Bytelet",
-                    Result = 0
-                }
-            },
-        },
-        new Question
-        {
-            Fact = "Which is not a real fruit?",
-             Answers = new List<Answer>
-              {
-                new Answer
-                {
-                    Response = "Tangeline",
-                    Result = 1
-                },
-                new Answer
-                {
-                    Response = "Ackee",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "Cherimoya",
-                    Result = 0
-                }
-            },
-        },
-        new Question
-        {
-            Fact = "How many IU campuses are there?",
-             Answers = new List<Answer>
-              {
-                new Answer
-                {
-                    Response = "5",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "9",
-                    Result = 1
-                },
-                new Answer
-                {
-                    Response = "7",
-                    Result = 0
-                }
-            },
-        },
-        new Question
-        {
-            Fact = "Which is a Greek god?",
-             Answers = new List<Answer>
-              {
-                new Answer
-                {
-                    Response = "Hyteus",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "Opatia",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "Pollux",
-                    Result = 1
-                }
-            },
-        },
-        new Question
-        {
-            Fact = "Which is the best selling video game?",
-             Answers = new List<Answer>
-              {
-                new Answer
-                {
-                    Response = "Pokemon",
-                    Result = 1
-                },
-                new Answer
-                {
-                    Response = "Call of Duty",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "Tetris",
-                    Result = 0
-                }
-            },
-        },
-        new Question
-        {
-            Fact = "How many justices sit on the US Supreme Court?",
-             Answers = new List<Answer>
-              {
-                new Answer
-                {
-                    Response = "12",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "7",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "9",
-                    Result = 1
-                }
-            },
-        },
-        new Question
-        {
-            Fact = "Serena Williams married a co-founder of which app" +
-            "?",
-             Answers = new List<Answer>
-              {
-                new Answer
-                {
-                    Response = "Twitter",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "LinkedIn",
-                    Result = 0
-                },
-                new Answer
-                {
-                    Response = "Reddit",
-                    Result = 1
-                }
-            },
-        },
-        new Question
-        {
             Fact = "Which is the highest honor?",
              Answers = new List<Answer>
               {
@@ -719,8 +484,8 @@ public class GameManager : MonoBehaviour
      public Text score;
      public static int count = 0;
      public Text counter;
-    //Constructor
-    void Awake()
+     //Constructor
+     void Awake()
      {
           TimeBetweenQuestions = GetTimeInSeconds();
           Debug.Log($"Time between questions: {TimeBetweenQuestions}");
@@ -738,53 +503,26 @@ public class GameManager : MonoBehaviour
      void Start()
      {
           SetCurrentQuestion();
-          
      }
 
      // Update is called once per frame
      void Update()
      {
-        score.text = "Score: " + scoreValue;
-        counter.text = (15 - count) + " of 15";
+          score.text = "Score: " + scoreValue;
+          counter.text = (count) + " of 15";
      }
-
-     public void UpdateScore(int scoreToAdd)
-     {
-        scoreValue += scoreToAdd;
-        
-     }
-
-     public void AddCount()
-     {
-         count++;
-        
-     }
-
-
-     public void ResetCount()
-     {
-         count = 0;
-     }
-
-
 
      public void UserSelectA()
      {
           if (CheckAnswer(CurrentQuestion.Answers[0].Result))
           {
                FirstResponseImg.texture = CorrectTexture;
-            // Add score function. If correct add question score.
-             UpdateScore(10);
-             AddCount();
-               
+               scoreValue = UpdateScoreInc(scoreValue);
           }
           else
           {
                FirstResponseImg.texture = WrongTexture;
-            // Add score function. If incorrect subtract half of question score.
-            UpdateScore(-5);
-            AddCount();
-            
+               scoreValue = UpdateScoreDec(scoreValue);
           }
 
           Animator.SetTrigger(Marshal.PtrToStringAnsi(GetTrigger('A')));
@@ -796,17 +534,13 @@ public class GameManager : MonoBehaviour
           if (CheckAnswer(CurrentQuestion.Answers[1].Result))
           {
                SecondResponseImg.texture = CorrectTexture;
-            // Add score function. If correct add question score.
-               UpdateScore(10);
-               AddCount();
-        }
+               scoreValue = UpdateScoreInc(scoreValue);
+          }
           else
           {
                SecondResponseImg.texture = WrongTexture;
-            // Add score function. If incorrect subtract half of question score.
-               UpdateScore(-5);
-               AddCount();
-        }
+               scoreValue = UpdateScoreDec(scoreValue);
+          }
 
           Animator.SetTrigger(Marshal.PtrToStringAnsi(GetTrigger('B')));
           StartCoroutine(TransitionToNextQuestion());
@@ -817,19 +551,13 @@ public class GameManager : MonoBehaviour
           if (CheckAnswer(CurrentQuestion.Answers[2].Result))
           {
                ThirdResponseImg.texture = CorrectTexture;
-            // Add score function. If correct add question score.
-               UpdateScore(10);
-               AddCount();
-            
-
-        }
+               scoreValue = UpdateScoreInc(scoreValue);
+          }
           else
           {
                ThirdResponseImg.texture = WrongTexture;
-            // Add score function. If incorrect subtract half of question score.
-               UpdateScore(-5);
-               AddCount();
-        }
+               scoreValue = UpdateScoreDec(scoreValue);
+          }
 
           Animator.SetTrigger(Marshal.PtrToStringAnsi(GetTrigger('C')));
           StartCoroutine(TransitionToNextQuestion());
@@ -849,16 +577,18 @@ public class GameManager : MonoBehaviour
 
      IEnumerator TransitionToNextQuestion()
      {
+          count = Increment(count);
+
           UnansweredQuestions.Remove(CurrentQuestion);
           yield return new WaitForSeconds(TimeBetweenQuestions);
-        if (count < 15)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-        else
-        {
-            SceneManager.LoadScene("EndScreen");
-            count = GetCount();
-        }
-    }
+          if (count < 15)
+          {
+               SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+          }
+          else
+          {
+               SceneManager.LoadScene("EndScreen");
+               count = 0;
+          }
+     }
 }
