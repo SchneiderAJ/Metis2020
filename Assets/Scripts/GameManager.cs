@@ -439,6 +439,248 @@ public class GameManager : MonoBehaviour
         },
         new Question
         {
+            Fact = "What year was the first Thunder Over Louisville held?",
+             Answers = new List<Answer>
+              {
+                new Answer
+                {
+                    Response = "1998",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "1987",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "1990",
+                    Result = 1
+                }
+            },
+        },
+        new Question
+        {
+            Fact = "Who is the leader of S.H.I.E.L.D.?",
+             Answers = new List<Answer>
+              {
+                new Answer
+                {
+                    Response = "Nick Fury",
+                    Result = 1
+                },
+                new Answer
+                {
+                    Response = "Bruce Banner",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "Steve Rogers",
+                    Result = 0
+                }
+            },
+        },
+        new Question
+        {
+            Fact = "Which is the highest poker hand?",
+             Answers = new List<Answer>
+              {
+                new Answer
+                {
+                    Response = "Four of a Kind",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "Full House",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "Royal Flush",
+                    Result = 1
+                }
+            },
+        },
+        new Question
+        {
+            Fact = "Which is the longest mountain range?",
+             Answers = new List<Answer>
+              {
+                new Answer
+                {
+                    Response = "Appalachians",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "Andes",
+                    Result = 1
+                },
+                new Answer
+                {
+                    Response = "Himalayas",
+                    Result = 0
+                }
+            },
+        },
+        new Question
+        {
+            Fact = "The co-founder of which app married Serena Williams?",
+             Answers = new List<Answer>
+              {
+                new Answer
+                {
+                    Response = "Reddit",
+                    Result = 1
+                },
+                new Answer
+                {
+                    Response = "Twitter",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "LinkedIn",
+                    Result = 0
+                }
+            },
+        },
+        new Question
+        {
+            Fact = "Which is NOT a real fruit?",
+             Answers = new List<Answer>
+              {
+                new Answer
+                {
+                    Response = "Tangeline",
+                    Result = 1
+                },
+                new Answer
+                {
+                    Response = "Cherimoya",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "Ackee",
+                    Result = 0
+                }
+            },
+        },
+        new Question
+        {
+            Fact = "What is the term for half of a byte?",
+             Answers = new List<Answer>
+              {
+                new Answer
+                {
+                    Response = "byttle",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "niblet",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "nibble",
+                    Result = 1
+                }
+            },
+        },
+        new Question
+        {
+            Fact = "How many IU campuses are there?",
+             Answers = new List<Answer>
+              {
+                new Answer
+                {
+                    Response = "9",
+                    Result = 1
+                },
+                new Answer
+                {
+                    Response = "7",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "6",
+                    Result = 0
+                }
+            },
+        },
+        new Question
+        {
+            Fact = "Which is the name of a Greek god?",
+             Answers = new List<Answer>
+              {
+                new Answer
+                {
+                    Response = "Hyteus",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "Pollux",
+                    Result = 1
+                },
+                new Answer
+                {
+                    Response = "Opatia",
+                    Result = 0
+                }
+            },
+        },
+        new Question
+        {
+            Fact = "Which is the best selling video game?",
+             Answers = new List<Answer>
+              {
+                new Answer
+                {
+                    Response = "Call of Duty",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "Tetris",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "Pokemon",
+                    Result = 1
+                }
+            },
+        },
+        new Question
+        {
+            Fact = "How many justices sit on the US Supreme Court?",
+             Answers = new List<Answer>
+              {
+                new Answer
+                {
+                    Response = "12",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "7",
+                    Result = 0
+                },
+                new Answer
+                {
+                    Response = "9",
+                    Result = 1
+                }
+            },
+        },
+        new Question
+        {
             Fact = "Who was the creator of The Last Supper painting?",
              Answers = new List<Answer>
               {
@@ -484,6 +726,11 @@ public class GameManager : MonoBehaviour
      public Text score;
      public static int count = 0;
      public Text counter;
+     public AudioSource[] sounds;
+     public AudioSource QuestionAudio;
+     public AudioSource CorrectAudio;
+     public AudioSource WrongAudio;
+
      //Constructor
      void Awake()
      {
@@ -503,24 +750,41 @@ public class GameManager : MonoBehaviour
      void Start()
      {
           SetCurrentQuestion();
+
+          sounds = GetComponents<AudioSource>();
+          QuestionAudio = sounds[0];
+          CorrectAudio = sounds[1];
+          WrongAudio = sounds[2];
+          QuestionAudio.Play();
      }
 
      // Update is called once per frame
      void Update()
      {
-          score.text = "Score: " + scoreValue;
-          counter.text = (count) + " of 15";
+          if (score)
+          {
+               score.text = "Score: " + scoreValue;
+          }
+
+          if (counter)
+          {
+               counter.text = (count) + " of 15";
+          }
      }
 
      public void UserSelectA()
      {
+          QuestionAudio.Stop();
+
           if (CheckAnswer(CurrentQuestion.Answers[0].Result))
           {
+               CorrectAudio.Play();
                FirstResponseImg.texture = CorrectTexture;
                scoreValue = UpdateScoreInc(scoreValue);
           }
           else
           {
+               WrongAudio.Play();
                FirstResponseImg.texture = WrongTexture;
                scoreValue = UpdateScoreDec(scoreValue);
           }
@@ -531,13 +795,17 @@ public class GameManager : MonoBehaviour
 
      public void UserSelectB()
      {
+          QuestionAudio.Stop();
+
           if (CheckAnswer(CurrentQuestion.Answers[1].Result))
           {
+               CorrectAudio.Play();
                SecondResponseImg.texture = CorrectTexture;
                scoreValue = UpdateScoreInc(scoreValue);
           }
           else
           {
+               WrongAudio.Play();
                SecondResponseImg.texture = WrongTexture;
                scoreValue = UpdateScoreDec(scoreValue);
           }
@@ -548,13 +816,17 @@ public class GameManager : MonoBehaviour
 
      public void UserSelectC()
      {
+          QuestionAudio.Stop();
+
           if (CheckAnswer(CurrentQuestion.Answers[2].Result))
           {
+               CorrectAudio.Play();
                ThirdResponseImg.texture = CorrectTexture;
                scoreValue = UpdateScoreInc(scoreValue);
           }
           else
           {
+               WrongAudio.Play();
                ThirdResponseImg.texture = WrongTexture;
                scoreValue = UpdateScoreDec(scoreValue);
           }
@@ -568,11 +840,26 @@ public class GameManager : MonoBehaviour
           int index = Random.Range(0, UnansweredQuestions.Count);
           CurrentQuestion = UnansweredQuestions[index];
           Debug.Log($"{CurrentQuestion.Fact}");
-          FactText.text = CurrentQuestion.Fact;
 
-          FirstAnswerText.text = $"a) {CurrentQuestion.Answers[0].Response}";
-          SecondAnswerText.text = $"b) {CurrentQuestion.Answers[1].Response}";
-          ThirdAnswerText.text = $"c) {CurrentQuestion.Answers[2].Response}";
+          if (FactText)
+          {
+               FactText.text = CurrentQuestion.Fact;
+          }
+
+          if (FirstAnswerText)
+          {
+               FirstAnswerText.text = $"a) {CurrentQuestion.Answers[0].Response}";
+          }
+
+          if (SecondAnswerText)
+          {
+               SecondAnswerText.text = $"b) {CurrentQuestion.Answers[1].Response}";
+          }
+
+          if (ThirdAnswerText)
+          {
+               ThirdAnswerText.text = $"c) {CurrentQuestion.Answers[2].Response}";
+          }
      }
 
      IEnumerator TransitionToNextQuestion()
